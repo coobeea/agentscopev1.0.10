@@ -15,7 +15,8 @@ class SpanAttributes:
     GEN_AI_OPERATION_NAME = GenAIAttributes.GEN_AI_OPERATION_NAME
     """The gen ai operation name."""
 
-    GEN_AI_PROVIDER_NAME = GenAIAttributes.GEN_AI_PROVIDER_NAME
+    # Compatibility: GEN_AI_PROVIDER_NAME was removed in newer versions
+    GEN_AI_PROVIDER_NAME = getattr(GenAIAttributes, "GEN_AI_PROVIDER_NAME", "gen_ai.system")
     """The gen ai provider name."""
 
     # GenAI Request Attributes
@@ -69,10 +70,11 @@ class SpanAttributes:
     """The gen ai usage output tokens."""
 
     # GenAI Message Attributes
-    GEN_AI_INPUT_MESSAGES = GenAIAttributes.GEN_AI_INPUT_MESSAGES
+    # Compatibility: These attributes may not exist in newer versions
+    GEN_AI_INPUT_MESSAGES = getattr(GenAIAttributes, "GEN_AI_INPUT_MESSAGES", "gen_ai.input.messages")
     """The gen ai input messages."""
 
-    GEN_AI_OUTPUT_MESSAGES = GenAIAttributes.GEN_AI_OUTPUT_MESSAGES
+    GEN_AI_OUTPUT_MESSAGES = getattr(GenAIAttributes, "GEN_AI_OUTPUT_MESSAGES", "gen_ai.output.messages")
     """The gen ai output messages."""
 
     # GenAI Agent Attributes
@@ -85,7 +87,8 @@ class SpanAttributes:
     GEN_AI_AGENT_DESCRIPTION = GenAIAttributes.GEN_AI_AGENT_DESCRIPTION
     """The gen ai agent description."""
 
-    GEN_AI_SYSTEM_INSTRUCTIONS = GenAIAttributes.GEN_AI_SYSTEM_INSTRUCTIONS
+    # Compatibility: GEN_AI_SYSTEM_INSTRUCTIONS was renamed to GEN_AI_SYSTEM
+    GEN_AI_SYSTEM_INSTRUCTIONS = getattr(GenAIAttributes, "GEN_AI_SYSTEM_INSTRUCTIONS", getattr(GenAIAttributes, "GEN_AI_SYSTEM", "gen_ai.system"))
     """The gen ai system instructions."""
 
     # GenAI Tool Attributes
@@ -137,16 +140,19 @@ class OperationNameValues:
     INVOKE_GENERIC_FUNCTION = "invoke_generic_function"
     """The invoke generic function operation name."""
 
-    CHAT = GenAIAttributes.GenAiOperationNameValues.CHAT.value
+    # Compatibility: GenAiOperationNameValues may not exist in newer versions
+    _operation_values = getattr(GenAIAttributes, "GenAiOperationNameValues", None)
+    
+    CHAT = _operation_values.CHAT.value if _operation_values and hasattr(_operation_values, "CHAT") else "chat"
     """The chat operation name."""
 
-    INVOKE_AGENT = GenAIAttributes.GenAiOperationNameValues.INVOKE_AGENT.value
+    INVOKE_AGENT = _operation_values.INVOKE_AGENT.value if _operation_values and hasattr(_operation_values, "INVOKE_AGENT") else "invoke_agent"
     """The invoke agent operation name."""
 
-    EXECUTE_TOOL = GenAIAttributes.GenAiOperationNameValues.EXECUTE_TOOL.value
+    EXECUTE_TOOL = _operation_values.EXECUTE_TOOL.value if _operation_values and hasattr(_operation_values, "EXECUTE_TOOL") else "execute_tool"
     """The execute tool operation name."""
 
-    EMBEDDINGS = GenAIAttributes.GenAiOperationNameValues.EMBEDDINGS.value
+    EMBEDDINGS = _operation_values.EMBEDDINGS.value if _operation_values and hasattr(_operation_values, "EMBEDDINGS") else "embeddings"
     """The embeddings operation name."""
 
 
@@ -159,25 +165,26 @@ class ProviderNameValues:
     OLLAMA = "ollama"
     """The ollama provider name."""
 
-    DEEPSEEK = GenAIAttributes.GenAiProviderNameValues.DEEPSEEK.value
+    # Compatibility: GenAiProviderNameValues may not exist in newer versions
+    _provider_values = getattr(GenAIAttributes, "GenAiProviderNameValues", None)
+    
+    DEEPSEEK = _provider_values.DEEPSEEK.value if _provider_values and hasattr(_provider_values, "DEEPSEEK") else "deepseek"
     """The deepseek provider name."""
 
-    OPENAI = GenAIAttributes.GenAiProviderNameValues.OPENAI.value
+    OPENAI = _provider_values.OPENAI.value if _provider_values and hasattr(_provider_values, "OPENAI") else "openai"
     """The openai provider name."""
 
-    ANTHROPIC = GenAIAttributes.GenAiProviderNameValues.ANTHROPIC.value
+    ANTHROPIC = _provider_values.ANTHROPIC.value if _provider_values and hasattr(_provider_values, "ANTHROPIC") else "anthropic"
     """The anthropic provider name."""
 
-    GCP_GEMINI = GenAIAttributes.GenAiProviderNameValues.GCP_GEMINI.value
+    GCP_GEMINI = _provider_values.GCP_GEMINI.value if _provider_values and hasattr(_provider_values, "GCP_GEMINI") else "gcp_gemini"
     """The gcp gemini provider name."""
 
     MOONSHOT = "moonshot"
     """The moonshot provider name."""
 
-    AZURE_AI_OPENAI = (
-        GenAIAttributes.GenAiProviderNameValues.AZURE_AI_OPENAI.value
-    )
+    AZURE_AI_OPENAI = _provider_values.AZURE_AI_OPENAI.value if _provider_values and hasattr(_provider_values, "AZURE_AI_OPENAI") else "azure_ai_openai"
     """The azure openai provider name."""
 
-    AWS_BEDROCK = GenAIAttributes.GenAiProviderNameValues.AWS_BEDROCK.value
+    AWS_BEDROCK = _provider_values.AWS_BEDROCK.value if _provider_values and hasattr(_provider_values, "AWS_BEDROCK") else "aws_bedrock"
     """The aws bedrock provider name."""
